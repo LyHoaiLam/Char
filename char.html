@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Biểu đồ JavaScript với dữ liệu nhập từ người dùng</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div>
+        <label for="data-input">Nhập dữ liệu (phân tách bằng dấu phẩy):</label>
+        <input type="text" id="data-input" placeholder="Ví dụ: 10, 20, 30, 40">
+        <button onclick="updateChart()">Cập nhật biểu đồ</button>
+    </div>
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+        // Hàm để vẽ biểu đồ ban đầu với dữ liệu mẫu
+        function drawChart(data) {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['A', 'B', 'C', 'D', 'E'],
+                    datasets: [{
+                        label: 'Dữ liệu ban đầu',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            return myChart;
+        }
+
+        // Hàm để cập nhật dữ liệu và vẽ lại biểu đồ
+        function updateChart() {
+            var inputElement = document.getElementById('data-input');
+            var inputData = inputElement.value.trim(); // Lấy dữ liệu nhập từ người dùng
+            var newData = inputData.split(',').map(Number); // Chuyển dữ liệu thành mảng số
+            myChart.data.datasets[0].data = newData;
+            myChart.update();
+        }
+
+        // Gọi hàm để vẽ biểu đồ ban đầu khi tải trang
+        var initialData = [10, 20, 30, 40, 50];
+        var myChart = drawChart(initialData);
+    </script>
+</body>
+</html>
